@@ -12,3 +12,4 @@ ln -s ${HOME}/.dotfiles/.msmtprc ${HOME}/.msmtprc
 ln -s ${HOME}/.dotfiles/.bashrc ${HOME}/.bashrc
 ln -s ${HOME}/.dotfiles/.bash_profile ${HOME}/.bash_profile
 ln -s ${HOME}/.dotfiles/.profile ${HOME}/.profile
+ln -s ${HOME}/.dotfiles/.spacemacs ${HOME}/.spacemacs
