@@ -1,0 +1,48 @@
+[general]
+accounts = Gmail, Outlook
+maxsyncaccounts = 2
+pythonfile = ~/.offlineimap.py
+
+[Account Gmail]
+localrepository = LocalGmail
+remoterepository = RemoteGmail
+autorefresh = 1
+quick = 10
+postsynchook = mu index --maildir ~/Mail/chouzaen2002@gmail.com
+
+[Repository LocalGmail]
+type = Maildir
+localfolders = ~/Mail/chouzaen2002@gmail.com
+
+[Repository RemoteGmail]
+type = Gmail
+
+remoteuser = chouzaen2002@gmail.com
+remotepass = imkuokundmpbzsll
+#remotepasseval = mailpasswd("chouzaen2002@gmail.com")
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+folderfilter = lambda foldername: foldername not in ['[Gmail]/spam', '[Gmail]/All Mail', '[Gmail]/Starred', '[Gmail]/Essential']
+
+[Account Outlook]
+localrepository = LocalOutlook
+remoterepository = RemoteOutlook
+autorefresh = 10
+quick = 10
+postsynchook = mu index --maildir ~/Mail/zaen200233@outlook.com
+
+[Repository LocalOutlook]
+type = Maildir
+localfolders = ~/Mail/zaen200233@outlook.com
+
+[Repository RemoteOutlook]
+type = IMAP
+remotehost = smtp.office365.com
+port = 587
+protocol = smtp
+auth = on
+
+remoteuser = zaen200233@outlook.com
+remotepass = biufyomyfmujkgnc
+#remotepasseval = mailpasswd("zaen200233@outlook.com")
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
