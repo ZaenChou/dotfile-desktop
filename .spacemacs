@@ -52,13 +52,15 @@ values."
      php
      html
      javascript
-     shell
+     shell-script
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
      rust
      sql
      ipython-notebook
+
+     chinese
 
      ;; Highlighting ;;
      systemd
@@ -95,11 +97,20 @@ values."
            mu4e-maildir "/home/zaen/Mail")
 
      ;; Tools ;;
+     games
      twitter
+     slack
      chrome
      finance
      pdf-tools
      pandoc     ;; Universal document converter
+     ranger     ;; Dired enhancement
+     (shell :variables
+            shell-default-shell 'multi-term)
+     speed-reading
+     (wakatime :variables
+               wakatime-api-key '2db0c3a9-0164-447c-83ed-57bde0304722
+               wakatime-cli-path '/usr/bin/wakatime)
      )
 
    ;; List of additional packages that will be installed without being
