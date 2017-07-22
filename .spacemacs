@@ -441,10 +441,12 @@ executes.x
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
+  ;; Custom Paths ;;
+  (push "/home/zaen/Google Drive/Documents/Emacs/lisp")
+
   ;;
   ;; mu4e CONFIGURATIONS
   ;;
-
 
   (setq
    mu4e-get-mail-command "offlineimap"
