@@ -452,8 +452,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   ;; Custom Paths ;;
-  (push "/home/zaen/Google Drive/Documents/Emacs/lisp")
-
+   (add-to-list 'load-path "/home/zaen/Google Drive/Documents/Emacs/lisp/")
+ 
+  (let ((default-directory  "/home/zaen/Google Drive/Documents/Emacs/lisp/"))
+    (normal-top-level-add-subdirs-to-load-path))
+  
   ;;
   ;; mu4e CONFIGURATIONS
   ;;
