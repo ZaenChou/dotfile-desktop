@@ -103,14 +103,14 @@ values."
      chrome
      finance
      pdf-tools
-     pandoc     ;; Universal document converter
-     ranger     ;; Dired enhancement
+     pandoc     ; Universal document converter
+     ranger     ; Dired enhancement
      (shell :variables
             shell-default-shell 'multi-term)
      speed-reading
      (wakatime :variables
-               wakatime-api-key '2db0c3a9-0164-447c-83ed-57bde0304722
-               wakatime-cli-path '/usr/bin/wakatime)
+               wakatime-api-key "2db0c3a9-0164-447c-83ed-57bde0304722"
+               wakatime-cli-path "/usr/bin/wakatime")
      )
 
    ;; List of additional packages that will be installed without being
@@ -138,7 +138,7 @@ values."
    ;; MOZC JAPANESE-INPUT
    ;;
    mozc-candidate-style 'popup
-   quail-japanese-use-double-n t   ;; Double n
+   quail-japanese-use-double-n t   ; Double n
    ))
 
 (defun dotspacemacs/init ()
@@ -200,8 +200,13 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+   dotspacemacs-startup-lists '(
+                                (agenda . 10)
+                                (recents . 5)
+                                (projects . 7)
+                                (bookmarks . 10)
+                                (todos . 20)
+                                )
    
 
    ;; True if the home buffer should respond to resize events.
@@ -225,7 +230,7 @@ values."
                                :size 13
                                :weight normal
                                :space-width 5
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
 
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -276,7 +281,7 @@ values."
    ;; Layouts ;;
 
    ;; Name of the default layout (default "Default")
-   dotspacemacs-default-layout-name 'Master
+   dotspacemacs-default-layout-name "Master"
 
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
@@ -459,9 +464,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq
    mu4e-index-cleanup nil
    mu4e-index-lazy-check t)
-  (setq message-send-mail-function 'smtpmail-send-it) ;; tell message-mode how to send mail
-  (setq mu4e-sent-messages-behavior 'delete);; sent messages
-  (setq message-kill-buffer-on-exit t) ;; kill message buffer when exiting
+  (setq message-send-mail-function 'smtpmail-send-it)  ; tell message-mode how to send mail
+  (setq mu4e-sent-messages-behavior 'delete)           ; sent messages
+  (setq message-kill-buffer-on-exit t)                 ; kill message buffer when exiting
+
   ;; smtpmail ;;
   (require 'smtpmail)
   (setq
@@ -489,8 +495,8 @@ you should place your code here."
   (global-set-key (kbd "C-j") 'mozc-mode) ;; Ctrl-j starts mozc
 
   ;; DEFAULT FRAME
-  (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Maximized by default
-  (setq frame-resize-pixelwise t)                              ;; Fix the gap
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Maximized by default
+  (setq frame-resize-pixelwise t)                              ; Fix the gap
 
   ;; NO MORE FUCKING ERROR PLS
  (defun my-command-error-function (data context caller)
@@ -501,15 +507,11 @@ you should place your code here."
 
 
   ;; TERMINAL RUNS ZSH
-  (setq explicit-shell-file-name "/bin/zsh")         ;; Shell file name
-  (setq multi-term-program explicit-shell-file-name) ;; Multi-term
-
-
-  ;; AUTOINSTALL COMPATIBILITY
-  (auto-install-compatibility-setup)
+  (setq explicit-shell-file-name "/bin/zsh")         ; Shell file name
+  (setq multi-term-program explicit-shell-file-name) ; Multi-term
 
   ;; Twitter ;;
-  (setq twittering-reverse-mode t) ; Display tweets from the bottom of the buffer
+  (setq twittering-reverse-mode t)     ; Display tweets from the bottom of the buffer
   (setq twittering-use-icon-storage t) ; Store the icons at .twittering-mode-icon.gz
    )
 
