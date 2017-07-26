@@ -2,7 +2,7 @@
 # /home/zaen/.nvidia-settings-rc
 #
 # Configuration file for nvidia-settings - the NVIDIA X Server Settings utility
-# Generated on Mon Jul  3 16:29:19 2017
+# Generated on Wed Jul 26 19:44:49 2017
 #
 
 # ConfigProperties:
@@ -13,9 +13,9 @@ SliderTextEntries = Yes
 IncludeDisplayNameInConfigFile = No
 ShowQuitDialog = No
 UpdateRulesOnProfileNameChange = Yes
-Timer = PowerMizer_Monitor_(GPU_0),Yes,1000
-Timer = Thermal_Monitor_(GPU_0),Yes,1000
 Timer = Memory_Used_(GPU_0),Yes,3000
+Timer = Thermal_Monitor_(GPU_0),Yes,1000
+Timer = PowerMizer_Monitor_(GPU_0),Yes,1000
 
 # Attributes:
 
@@ -36,12 +36,12 @@ Timer = Memory_Used_(GPU_0),Yes,3000
 [DPY:DVI-I-1]/RedBrightness=-1.000000
 [DPY:DVI-I-1]/GreenBrightness=-1.000000
 [DPY:DVI-I-1]/BlueBrightness=-1.000000
-[DPY:DVI-I-1]/RedContrast=-0.709091
-[DPY:DVI-I-1]/GreenContrast=-0.709091
-[DPY:DVI-I-1]/BlueContrast=-1.000000
-[DPY:DVI-I-1]/RedGamma=0.831250
-[DPY:DVI-I-1]/GreenGamma=0.831250
-[DPY:DVI-I-1]/BlueGamma=0.595000
+[DPY:DVI-I-1]/RedContrast=-0.600000
+[DPY:DVI-I-1]/GreenContrast=-0.600000
+[DPY:DVI-I-1]/BlueContrast=-0.800000
+[DPY:DVI-I-1]/RedGamma=0.700000
+[DPY:DVI-I-1]/GreenGamma=0.700000
+[DPY:DVI-I-1]/BlueGamma=0.500000
 [DPY:DVI-I-1]/Dithering=0
 [DPY:DVI-I-1]/DitheringMode=0
 [DPY:DVI-I-1]/DitheringDepth=0
