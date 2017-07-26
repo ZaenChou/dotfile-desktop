@@ -11,7 +11,6 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-export PATH = $PATH:~/.cabal/bin/
 alias ls='ls --color=auto'
 alias emacs="emacsclient -nc -s default"
 alias emacs1="emacsclient -nc -s instance1"
