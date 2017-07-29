@@ -545,25 +545,37 @@ you should place your code here."
 
   ;; Spaceline ;;
   (setq powerline-default-separator 'bar)
+
+
+
   ;;;;--- Layouts ---;;;;
 
   (spacemacs|define-custom-layout "@ERC"
   :binding "E"
   :body
-  (erc-tls :server "irc.freenode.net" :port "6667" :nick "Zaen"))
+  (progn
+    ;; hook to add all ERC buffers to the layout
+    (defun spacemacs-layouts/add-erc-buffer-to-persp ()
+      (persp-add-buffer (current-buffer)
+                        (persp-get-by-name
+                         erc-spacemacs-layout-name)))
+    (add-hook 'erc-mode-hook #'spacemacs-layouts/add-erc-buffer-to-persp)
+    ;; Start ERC
+    (call-interactively 'erc)
+    ))
 
   (spacemacs|define-custom-layout "@Notebook"
   :binding "n"
   :body
+  (progn
   (find-file "~/Google Drive/Notebooks/notebook.txt")
-  (diable-theme custom-enabled-themes)
+  (disable-theme custom-enabled-themes)
   (load-theme 'twilight)
   (org-mode)
   (neotree-show)
-  )
+  ))
 
   (spacemacs|define-custom-layout "@AV"
-
   :binding "a"
   :body
 
