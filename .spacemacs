@@ -93,9 +93,7 @@ values."
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
           org-project-file "TODOs.org"
-         
           )
-     
 
      ;; Mail ;;
      (mu4e :variables
@@ -195,7 +193,10 @@ values."
    dotspacemacs-editing-style 'hybrid
 
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
+
+
+   ;; Startup screen ;;
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -220,6 +221,7 @@ values."
                                 )
    
 
+
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
 
@@ -239,8 +241,8 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
                                :size 13
-                               :weight normal
-                               :space-width 5
+                               :weight seli-light
+                               :width extra-condensed
                                :powerline-scale 1.3)
 
    ;; The leader key
@@ -402,19 +404,17 @@ values."
    ;; Control line numbers activation.
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
-   ;; This variable can also be set to a property list for finer control:
-   ;; '(:relative nil
-   ;;   :disabled-for-modes dired-mode
-   ;;                       doc-view-mode
-   ;;                       markdown-mode
-   ;;                       org-mode
-   ;;                       pdf-view-mode
-   ;;                       text-mode
-   ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
-
-   ;; Code folding method. Possible values are `evil' and `origami'.
+   dotspacemacs-line-numbers  '(:relative nil
+                                :disabled-for-modes dired-mode
+                                                    doc-view-mode
+                                                    markdown-mode
+                                                    org-mode
+                                                    pdf-view-mode
+                                                    text-mode
+                                                    spacemacs-buffer-mode
+                                :size-limit-kb 1000)
+       ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
 
@@ -468,7 +468,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
     (normal-top-level-add-subdirs-to-load-path))
   
   ;; Ranger by default ;;
-  (ranger-override-dired-mode t)
+  (setq ranger-override-dired-mode t)
 
 
   ;;
@@ -508,10 +508,6 @@ you should place your code here."
   ;;UTF-8 (FOR JAPANESE)
   (prefer-coding-system 'utf-8)
 
-
-  (require webkit)
-  (require reddit)
-
   ;; MOZC Ctrl-J
   (global-set-key (kbd "C-j") 'mozc-mode) ;; Ctrl-j starts mozc
 
@@ -538,31 +534,48 @@ you should place your code here."
   ;; Org ;;
   (with-eval-after-load 'org-agenda
     (require 'org-projectile)
-    (push (org-projectile:todo-files) org-agenda-files))
-  (setq spaceline-org-clock-p t)
+    (push (org-projectile:todo-files) org-agenda-files)
+    (setq spaceline-org-clock-p t)
+    )
+
   ;; ERC ;;
 
   ;; Default Browser ;;
   (setq browse-url-browser-function 'browse-url-chromium)
 
+  ;; Spaceline ;;
+  (setq powerline-default-separator 'bar)
   ;;;;--- Layouts ---;;;;
 
-  (spacemacs|define-custom-layout "@ERC")
+  (spacemacs|define-custom-layout "@ERC"
   :binding "E"
   :body
-  (erc-tls :server :port "6667" :nick "Zaen")
+  (erc-tls :server "irc.freenode.net" :port "6667" :nick "Zaen"))
 
-  (spacemacs|define-custom-layout "@Notebook")
+  (spacemacs|define-custom-layout "@Notebook"
   :binding "n"
   :body
+  (find-file "~/Google Drive/Notebooks/notebook.txt")
+  (diable-theme custom-enabled-themes)
+  (load-theme 'twilight)
+  (org-mode)
+  (neotree-show)
+  )
 
-  (spacemacs|define-custom-layout "@AV")
+  (spacemacs|define-custom-layout "@AV"
 
   :binding "a"
   :body
 
+  )
   ;;;;--- Theme per mode ---;;;;
-
+  (with-eval-after-load 'org
+  (spacemacs|use-package-add-hook org)
+  :post-config
+  (lambda()
+    (load-theme-buffer-local 'spacemacs-light (current-buffer))
+    )
+)
   ;; Yet got it working ;;
 
    ;; (add-hook 'org-mode-hook
@@ -629,15 +642,21 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(custom-safe-themes
+   (quote
+    ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (xterm-color web-mode web-beautify tagedit slime-company slime slim-mode shell-pop scss-mode sass-mode realgud test-simple loc-changes load-relative pug-mode projectile-rails inflections phpunit phpcbf php-extras php-auto-yasnippets ob-elixir magithub ghub+ apiwrap ghub magit-gh-pulls livid-mode skewer-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc impatient-mode simple-httpd helm-css-scss haml-mode godoctor go-rename go-guru go-eldoc github-search github-clone gist gh marshal logito pcache geiser flycheck-mix flycheck-credo feature-mode eshell-z eshell-prompt-extras esh-help emmet-mode drupal-mode disaster company-web web-completion-data company-tern dash-functional tern company-php ac-php-core xcscope php-mode company-go go-mode company-c-headers common-lisp-snippets coffee-mode cmake-mode clang-format alchemist elixir-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (org-projectile org-brain evil-org editorconfig browse-at-remote window-purpose white-sand-theme unfill slack rebecca-theme org-journal monokai-theme markdown-toc live-py-mode gitconfig-mode flycheck-bashate ein request-deferred xterm-color web-mode web-beautify tagedit slime-company slime slim-mode shell-pop scss-mode sass-mode realgud test-simple loc-changes load-relative pug-mode projectile-rails inflections phpunit phpcbf php-extras php-auto-yasnippets ob-elixir magithub ghub+ apiwrap ghub magit-gh-pulls livid-mode skewer-mode less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc impatient-mode simple-httpd helm-css-scss haml-mode godoctor go-rename go-guru go-eldoc github-search github-clone gist gh marshal logito pcache geiser flycheck-mix flycheck-credo feature-mode eshell-z eshell-prompt-extras esh-help emmet-mode drupal-mode disaster company-web web-completion-data company-tern dash-functional tern company-php ac-php-core xcscope php-mode company-go go-mode company-c-headers common-lisp-snippets coffee-mode cmake-mode clang-format alchemist elixir-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+ '(wakatime-python-bin nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:foreground "#eee" :background "#011827")) (((class color) (min-colors 256)) (:foreground "#eee" :background "black")))))
 )
 
