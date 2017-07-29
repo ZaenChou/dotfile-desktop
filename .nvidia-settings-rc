@@ -2,7 +2,7 @@
 # /home/zaen/.nvidia-settings-rc
 #
 # Configuration file for nvidia-settings - the NVIDIA X Server Settings utility
-# Generated on Wed Jul 26 19:44:49 2017
+# Generated on Fri Jul 28 19:00:50 2017
 #
 
 # ConfigProperties:
@@ -13,9 +13,9 @@ SliderTextEntries = Yes
 IncludeDisplayNameInConfigFile = No
 ShowQuitDialog = No
 UpdateRulesOnProfileNameChange = Yes
-Timer = Memory_Used_(GPU_0),Yes,3000
-Timer = Thermal_Monitor_(GPU_0),Yes,1000
 Timer = PowerMizer_Monitor_(GPU_0),Yes,1000
+Timer = Thermal_Monitor_(GPU_0),Yes,1000
+Timer = Memory_Used_(GPU_0),Yes,3000
 
 # Attributes:
 
@@ -39,9 +39,9 @@ Timer = PowerMizer_Monitor_(GPU_0),Yes,1000
 [DPY:DVI-I-1]/RedContrast=-0.600000
 [DPY:DVI-I-1]/GreenContrast=-0.600000
 [DPY:DVI-I-1]/BlueContrast=-0.800000
-[DPY:DVI-I-1]/RedGamma=0.700000
-[DPY:DVI-I-1]/GreenGamma=0.700000
-[DPY:DVI-I-1]/BlueGamma=0.500000
+[DPY:DVI-I-1]/RedGamma=0.600000
+[DPY:DVI-I-1]/GreenGamma=0.600000
+[DPY:DVI-I-1]/BlueGamma=0.450000
 [DPY:DVI-I-1]/Dithering=0
 [DPY:DVI-I-1]/DitheringMode=0
 [DPY:DVI-I-1]/DitheringDepth=0
