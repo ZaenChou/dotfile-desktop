@@ -1,11 +1,4 @@
-;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
-
 (defun dotspacemacs/layers ()
-  "Configuration Layers declaration.
-You should not put any user code in this function besides modifying the variable
-values."
 
   (setq-default
    dotspacemacs-distribution 'spacemacs
@@ -76,9 +69,11 @@ values."
      (org :variables
           org-enable-github-support t
           org-enable-org-journal-support t
+          org-journal-dir"~/Google Drive/Org/Journal/"
+          org-journal-file-format "%Y-%n-%d"
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
-          org-project-file "TODOs.org"
+          org-projectile-file "TODOs.org"
           )
 
      ;; Mail ;;
@@ -136,7 +131,7 @@ values."
 
    dotspacemacs-install-packages 'used-but-keep-unused
    )
-
+  )
 (defun dotspacemacs/init ()
   (setq-default
 
@@ -387,6 +382,7 @@ values."
   ;; MOZC Ctrl-J
   (global-set-key (kbd "C-j") 'mozc-mode) ; Ctrl-j starts mozc
   (setq quail-japanese-use-double-n t)   ; Double n
+
   ;; DEFAULT FRAME
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Maximized by default
   (setq frame-resize-pixelwise t)                              ; Fix the gap
@@ -408,11 +404,15 @@ values."
   (setq twittering-use-icon-storage t) ; Store the icons at .twittering-mode-icon.gz
 
   ;; Org ;;
-  (with-eval-after-load 'org-agenda
-    (require 'org-projectile)
-    (push (org-projectile:todo-files) org-agenda-files)
-    (setq spaceline-org-clock-p t)
+  (with-eval-after-load 'org
+    (with-eval-after-load 'org-agenda
+      (require 'org-projectile)
+      ;(push (org-projectile:todo-files) org-agenda-files)
+      (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
     )
+    (setq spaceline-org-clock-p t)
+
+  )
 
   ;; ERC ;;
 
@@ -471,7 +471,7 @@ values."
   (lambda()
     (load-theme-buffer-local 'spacemacs-light (current-buffer))
     )
-)
+
   ;; Yet got it working ;;
 
    ;; (add-hook 'org-mode-hook
@@ -501,7 +501,7 @@ values."
    ;;          (:modes . (org-mode)))
    ;;         ))
 
-))
+)))
 
 
 
