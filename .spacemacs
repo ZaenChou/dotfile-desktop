@@ -66,15 +66,7 @@
 
 
      ;; Org ;;
-     (org :variables
-          org-enable-github-support t
-          org-enable-org-journal-support t
-          org-journal-dir"~/Google Drive/Org/Journal/"
-          org-journal-file-format "%Y-%n-%d"
-          org-enable-bootstrap-support t
-          org-enable-reveal-js-support t
-          org-projectile-file "TODOs.org"
-          )
+     org
 
      ;; Mail ;;
      (mu4e :variables
@@ -405,13 +397,24 @@
 
   ;; Org ;;
   (with-eval-after-load 'org
+    (setq-default dotspacemacs-configuration-layers '(
+                                                      (org :variables
+                                                           org-enable-github-support t
+                                                           org-enable-org-journal-support t
+                                                           org-journal-dir"~/Google Drive/Org/Journal/"
+                                                           org-journal-file-format "%Y-%n-%d"
+                                                           org-enable-bootstrap-support t
+                                                           org-enable-reveal-js-support t
+                                                           org-projectile-file "TODOs.org"
+                                                           )
+                                                      )
+                  )
     (with-eval-after-load 'org-agenda
       (require 'org-projectile)
       ;(push (org-projectile:todo-files) org-agenda-files)
       (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
     )
     (setq spaceline-org-clock-p t)
-
   )
 
   ;; ERC ;;
