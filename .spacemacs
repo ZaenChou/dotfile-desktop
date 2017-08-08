@@ -40,6 +40,7 @@
 
      ;; Languages ;;
      chinese
+     ; japanese
 
      ;; Highlighting ;;
      systemd
@@ -102,7 +103,8 @@
      (ranger :variables
              ranger-show-preview t)
      emms
-     )
+     gnus
+    )
 
    dotspacemacs-additional-packages
    '(
@@ -388,12 +390,12 @@
   (setq quail-japanese-use-double-n t)   ; Double n
 
   ;; Fonts
-  (set-fontset-font t 'japanese-jisx0208 (font-spec
-                                          :family "IPAExGothic"
-                                          :size 14
-                                          :weight normal
-                                          :width normal
-                                         ))
+  ;(set-fontset-font t 'japanese-jisx0208 (font-spec
+   ;                                       :family "IPAExGothic"
+    ;                                      :size 14
+     ;                                     :weight normal
+      ;                                    :width normal
+       ;                                  ))
 
   ;; DEFAULT FRAME
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Maximized by default
