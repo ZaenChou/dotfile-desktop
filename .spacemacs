@@ -66,7 +66,16 @@
 
 
      ;; Org ;;
-     org
+     (org :variables
+          org-enable-github-support t
+          org-enable-org-journal-support t
+          org-journal-dir"~/Google Drive/Org/Journal-Desktop/"
+          org-journal-file-format "%Y-%n-%d"
+          org-enable-bootstrap-support t
+          org-enable-reveal-js-support t
+          org-want-todo-bindings t
+          org-projectile-file "TODOs.org"
+          )
 
      ;; Mail ;;
      (mu4e :variables
@@ -117,13 +126,15 @@
      ;;                     :fetcher github
      ;;                     :repo "martyr-deepin/emacs-webkit")))
 
+     )
    dotspacemacs-frozen-packages '()  ; No update
 
    dotspacemacs-excluded-packages '() ; Excluded from layer
 
    dotspacemacs-install-packages 'used-but-keep-unused
-   )
-  )
+   
+  ))
+
 (defun dotspacemacs/init ()
   (setq-default
 
@@ -155,7 +166,7 @@
                                 (bookmarks . 10)
                                 (todos . 20)
                                 )
-   
+
    dotspacemacs-startup-buffer-responsive t
 
 
@@ -169,11 +180,11 @@
 
    dotspacemacs-colorize-cursor-according-to-state t
 
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
-                               :weight semi-light
-                               :width extra-condensed
-                               :powerline-scale 1.3)
+   dotspacemacs-default-font '("Inconsolata"
+                               :size 15
+                               :weight normal
+                               :width normal
+                               :powerline-scale 1.1)
 
    dotspacemacs-leader-key "SPC"
 
@@ -218,7 +229,7 @@
 
    dotspacemacs-display-default-layout t
 
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
 
 
    dotspacemacs-large-file-size 1 ; in MB
@@ -368,12 +379,21 @@
 
 (defun dotspacemacs/user-config ()
 
-  ;;UTF-8 (FOR JAPANESE)
+  ;;; Japanese
+  ;; Characters
   (prefer-coding-system 'utf-8)
 
   ;; MOZC Ctrl-J
   (global-set-key (kbd "C-j") 'mozc-mode) ; Ctrl-j starts mozc
   (setq quail-japanese-use-double-n t)   ; Double n
+
+  ;; Fonts
+  (set-fontset-font t 'japanese-jisx0208 (font-spec
+                                          :family "IPAExGothic"
+                                          :size 14
+                                          :weight normal
+                                          :width normal
+                                         ))
 
   ;; DEFAULT FRAME
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Maximized by default
@@ -397,23 +417,24 @@
 
   ;; Org ;;
   (with-eval-after-load 'org
-    (setq-default dotspacemacs-configuration-layers '(
-                                                      (org :variables
-                                                           org-enable-github-support t
-                                                           org-enable-org-journal-support t
-                                                           org-journal-dir"~/Google Drive/Org/Journal/"
-                                                           org-journal-file-format "%Y-%n-%d"
-                                                           org-enable-bootstrap-support t
-                                                           org-enable-reveal-js-support t
-                                                           org-projectile-file "TODOs.org"
-                                                           )
-                                                      )
-                  )
-    (with-eval-after-load 'org-agenda
-      (require 'org-projectile)
-      ;(push (org-projectile:todo-files) org-agenda-files)
-      (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
-    )
+    ;; (setq-default dotspacemacs-configuration-layers '(
+    ;;                                                   (org :variables
+    ;;                                                        org-enable-github-support t
+    ;;                                                        org-enable-org-journal-support t
+    ;;                                                        org-journal-dir"~/Google Drive/Org/Journal-Desktop/"
+    ;;                                                        org-journal-file-format "%Y-%n-%d"
+    ;;                                                        org-enable-bootstrap-support t
+    ;;                                                        org-enable-reveal-js-support t
+    ;;                                                        org-want-todo-bindings t
+    ;;                                                        org-projectile-file "TODOs.org"
+    ;;                                                        )
+    ;;                                                   )
+    ;;               )
+    ;(with-eval-after-load 'org-agenda
+      ;(require 'org-projectile)
+      ;;(push (org-projectile:todo-files) org-agenda-files)
+      ;(setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
+    ;)
     (setq spaceline-org-clock-p t)
   )
 
@@ -426,6 +447,25 @@
   (setq powerline-default-separator 'bar)
 
 
+  ;; EWW ;;
+  (defvar eww-disable-colorize t)
+  (defun shr-colorize-region--disable (orig start end fg &optional bg &rest _)
+    (unless eww-disable-colorize
+      (funcall orig start end fg)))
+  (advice-add 'shr-colorize-region :around 'shr-colorize-region--disable)
+  (advice-add 'eww-colorize-region :around 'shr-colorize-region--disable)
+  (defun eww-disable-color ()
+    "No color displayed in eww"
+    (interactive)
+    (setq-local eww-disable-colorize t)
+    (eww-reload))
+  (defun eww-enable-color ()
+    "Enable color in eww"
+    (interactive)
+    (setq-local eww-disable-colorize nil)
+    (eww-reload))
+  (setq browse-url-generic-program (executable-find "chromium"))
+  (setq shr-external-browser 'browse-url-generic)
 
   ;;;;--- Layouts ---;;;;
 
@@ -447,9 +487,14 @@
   :binding "n"
   :body
   (progn
+   ; (defun disable-current-theme ()
+    ;  (disable-theme spacemacs--cur-theme))
+  (disable-theme spacemacs--cur-theme)
+  ;(advice-add 'load-theme :before #'disable-current-theme)
+  (spacemacs/load-theme 'leuven)
+  ;Wrong number of arguments: (lambda nil (disable-theme spacemacs--cur-theme)),
+  ;(helm-themes--load-theme ("leuven"))
   (find-file "~/Google Drive/Notebooks/notebook.txt")
-  (disable-theme custom-enabled-themes)
-  (load-theme 'leuven)
   (org-mode)
   (neotree-show)
   ))
@@ -466,14 +511,16 @@
   
 
     )
+  (setq magithub-debug t)
 
   ;;;;--- Theme per mode ---;;;;
-  (with-eval-after-load 'org
-  (spacemacs|use-package-add-hook org)
-  :post-config
-  (lambda()
-    (load-theme-buffer-local 'spacemacs-light (current-buffer))
-    )
+  ;; (with-eval-after-load 'org
+  ;; (spacemacs|use-package-add-hook org)
+  ;; :post-config
+  ;; (lambda()
+  ;;   (load-theme-buffer-local 'spacemacs-light (current-buffer))
+  ;;   )
+  ;; )
 
   ;; Yet got it working ;;
 
@@ -504,7 +551,7 @@
    ;;          (:modes . (org-mode)))
    ;;         ))
 
-)))
+)
 
 
 
@@ -551,7 +598,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (webkit per-buffer-theme load-theme-buffer-local color-theme-buffer-local color-theme emms ox-twbs ox-gfm org-notebook ox-reveal erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks emoji-cheat-sheet-plus company-emoji elfeed-goodies elfeed-org elfeed restclient epc wakatime-mode typit mmt sudoku spray slack emojify circe oauth2 ranger pangu-spacing pandoc-mode pacmacs ox-pandoc insert-shebang fish-mode find-by-pinyin-dired company-shell chinese-pyim chinese-pyim-basedict ace-pinyin pinyinlib 2048-game pdf-tools tablist ledger-mode gmail-message-mode ham-mode html-to-markdown flymd flycheck-ledger edit-server zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme toml-mode tao-theme tangotango-theme tango-plus-theme tango-2-theme systemd sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rainbow-mode rainbow-identifiers railscasts-theme racer purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-rust seq flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme ein deferred websocket dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode clues-theme cherry-blossom-theme cargo rust-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme autotetris-mode persp-projectile twittering-mode github-browse-file ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (org-journal per-buffer-theme load-theme-buffer-local color-theme-buffer-local color-theme emms ox-twbs ox-gfm org-notebook ox-reveal erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks emoji-cheat-sheet-plus company-emoji elfeed-goodies elfeed-org elfeed restclient epc wakatime-mode typit mmt sudoku spray slack emojify circe oauth2 ranger pangu-spacing pandoc-mode pacmacs ox-pandoc insert-shebang fish-mode find-by-pinyin-dired company-shell chinese-pyim chinese-pyim-basedict ace-pinyin pinyinlib 2048-game pdf-tools tablist ledger-mode gmail-message-mode ham-mode html-to-markdown flymd flycheck-ledger edit-server zonokai-theme zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme toml-mode tao-theme tangotango-theme tango-plus-theme tango-2-theme systemd sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rainbow-mode rainbow-identifiers railscasts-theme racer purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-rust seq flatui-theme flatland-theme firebelly-theme farmhouse-theme espresso-theme ein deferred websocket dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode clues-theme cherry-blossom-theme cargo rust-mode busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme autotetris-mode persp-projectile twittering-mode github-browse-file ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(wakatime-python-bin nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
