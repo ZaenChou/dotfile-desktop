@@ -556,7 +556,7 @@
   (setq frame-resize-pixelwise t)                              ; Fix the gap
 
   ;; Golden Ratio
-  (golden-ratio-mode 1)
+  (golden-ratio-mode 0)
   (setq golden-ratio-auto-scale t)
 
   ;; Save Desktop
