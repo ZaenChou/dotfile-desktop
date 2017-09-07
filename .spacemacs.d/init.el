@@ -131,8 +131,8 @@
      ac-php
      mozc
      ac-mozc
-     mozc-popup
-     mozc-cursor-color
+     ;mozc-popup
+     ;mozc-cursor-color
      multi-term
      emms
      gitter
@@ -207,7 +207,7 @@
    dotspacemacs-colorize-cursor-according-to-state t
 
    dotspacemacs-default-font '("Source Han Code JP"
-                               :size 12
+                               :size 13
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
