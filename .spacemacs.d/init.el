@@ -725,6 +725,13 @@
 
   ;;; ERC   Emacs Internet Relay Chat Client
 
+  ;;; Git
+  (setq magit-repository-directories '(
+                                       "~/Projects/"
+                                       ))
+
+
+
   ;;; Gitter
   (setq gitter-token "b82daddc46dc27391e313e8dc6dcc07d6c079ccf")
 
