@@ -24,7 +24,7 @@ eval "$(thefuck --alias damn)"
 
 alias dlmp3y="youtube-dl --audio-format mp3 --audio-quality 0 -x"
 
-source ~/.zplug/zplug
+source ~/.zplug/init.zsh
 
 zplug "nvbn/thefuck"
 zplug "urbainvaes/fzf-marks"
