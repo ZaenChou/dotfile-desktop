@@ -36,7 +36,7 @@ fi
 # Add zplug plugins
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-zplug "denysdovhan/spaceship-zsh-theme", use:spaceship.zsh, from:github, as:theme
+#zplug "denysdovhan/spaceship-zsh-theme", use:spaceship.zsh, from:github, as:theme
 
 zplug "nvbn/thefuck"
 
@@ -334,3 +334,5 @@ SPACESHIP_EXIT_CODE_PREFIX="("
 SPACESHIP_EXIT_CODE_SUFFIX=") "
 SPACESHIP_EXIT_CODE_SYMBOl="✘ "
 SPACESHIP_EXIT_CODE_COLOR="red"
+
+zplug load --verbose

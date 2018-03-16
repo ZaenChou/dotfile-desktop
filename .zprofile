@@ -1,6 +1,7 @@
 PATH=$PATH:/home/zaen/ZaenBin:/home/zaen/.gem/ruby/2.4.0/bin
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
 
-echo < date
+echo `date`
 alias std="shutdown now"
 alias gd="~/Google\ Drive"
+alias ae="$ANDROID_HOME/tools/emulator @OnePlus_3T_API_25 -writable-system &"
