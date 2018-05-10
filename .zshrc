@@ -335,4 +335,4 @@ SPACESHIP_EXIT_CODE_SUFFIX=") "
 SPACESHIP_EXIT_CODE_SYMBOl="✘ "
 SPACESHIP_EXIT_CODE_COLOR="red"
 
-zplug load --verbose
+zplug load 
